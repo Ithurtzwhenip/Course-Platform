@@ -1,0 +1,42 @@
+# Ignore virtual environment
+venv/
+
+# Ignore Python bytecode/cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment variables (secrets)
+.env
+*.env
+
+# Ignore system-generated files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+*.log      # Log files
+
+# Ignore PyCharm settings
+.idea/
+
+# Ignore VS Code settings (if used)
+.vscode/
+
+# Ignore Jupyter Notebook checkpoints (if using notebooks)
+.ipynb_checkpoints/
+
+# Ignore compiled C extensions (if any)
+*.so
+
+# Ignore coverage and test reports
+.coverage
+*.coverage
+*.pytest_cache/
+nosetests.xml
+test-results/
+
+# Ignore build and distribution files
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
