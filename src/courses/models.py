@@ -1,6 +1,8 @@
 from django.db import models
+import helpers
+from cloudinary.models import CloudinaryField
 
-
+helpers.cloudinary_init()
 # Create your models here.
 class AccessRequirement(models.TextChoices):
     PUBLISHED = "any", "Anyone"
@@ -20,7 +22,8 @@ def handle_upload(instance, filename):
 class Course(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to=handle_upload, blank=True, null=True)
+    # image = models.ImageField(upload_to=handle_upload, blank=True, null=True)
+    image = CloudinaryField("image", blank=True, null=True)
     access = models.CharField(max_length=5,
                               choices=AccessRequirement.choices,
                               default=AccessRequirement.EMAIL_REQUIRED
