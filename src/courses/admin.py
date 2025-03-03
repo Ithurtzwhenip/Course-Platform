@@ -3,11 +3,16 @@ from django.contrib import admin
 from django.utils.html import format_html
 # Register your models here.
 
-from .models import Course
+from .models import Course, Lesson
 
+
+class LessonInLine(admin.StackedInline):
+    model = Lesson
+    extra = 0
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
+    inlines = [LessonInLine]
     list_display = ('title', 'description', 'access')
     list_filter = ('status', 'access')
     fields = ['title', 'description', 'status', 'image', 'access', 'display_image']
