@@ -1,5 +1,7 @@
+import uuid
 from django.db import models
 import helpers
+from django.utils.text import slugify
 from cloudinary.models import CloudinaryField
 
 helpers.cloudinary_init()
@@ -21,11 +23,32 @@ def handle_upload(instance, filename):
     return f"{filename}"
 
 
+def get_public_id_prefix(instance, *args, **kwargs):
+    title = instance.title
+    if title:
+        slug = slugify(title)
+        unique_id = str(uuid.uuid4()).replace("-", "")[:5]
+        return f"course/{slug}-{unique_id}"
+    if instance.id:
+        return f"courses/{instance.id}/"
+    return "courses"
+
+
+def get_display_name(instance, *args, **kwargs):
+    title = instance.title
+    if title:
+        return title
+    return 'Course Upload'
+
+
 class Course(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     # image = models.ImageField(upload_to=handle_upload, blank=True, null=True)
-    image = CloudinaryField("image", blank=True, null=True)
+    image = CloudinaryField("image", blank=True, null=True, public_id_prefix=get_public_id_prefix,
+                            display_name=get_display_name,
+                            tags=["course", "thumbnail"]
+                            )
     access = models.CharField(max_length=5,
                               choices=AccessRequirement.choices,
                               default=AccessRequirement.EMAIL_REQUIRED
@@ -39,6 +62,7 @@ class Course(models.Model):
                               )
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
     @property
     def is_published(self):
         return self.status == PublishStatus.PUBLISHED
@@ -84,4 +108,4 @@ class Lesson(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['order','-updated']
+        ordering = ['order', '-updated']
