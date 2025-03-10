@@ -96,7 +96,10 @@ class Lesson(models.Model):
                             public_id_prefix=get_public_id_prefix,
                             display_name=get_display_name,
                             tags=['video', 'lesson'],
-                            blank=True, null=True, resource_type="video")
+                            blank=True,
+                            null=True,
+                            type="private",
+                            resource_type="video")
     order = models.IntegerField(default=0)
     can_preview = models.BooleanField(default=False,
                                       help_text="If user does not have access to course, can they see this?")
