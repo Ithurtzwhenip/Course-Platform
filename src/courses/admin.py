@@ -8,6 +8,7 @@ from .models import Course, Lesson
 
 class LessonInLine(admin.StackedInline):
     model = Lesson
+    readonly_fields = ['public_id','updated']
     extra = 0
 
 @admin.register(Course)
