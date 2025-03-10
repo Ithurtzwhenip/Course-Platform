@@ -81,19 +81,6 @@ class Course(models.Model):
     def is_published(self):
         return self.status == PublishStatus.PUBLISHED
 
-    @property
-    def image_admin_url(self):
-        if not self.image:
-            return None
-        return CloudinaryImage(str(self.image)).build_url(width=200)  # Fix: Convert to CloudinaryImage
-
-    def get_image_detail(self, as_html=False, width=750):
-        if not self.image:
-            return None
-        image = CloudinaryImage(str(self.image))
-        url = image.build_url(width=width)
-        return format_html(f'<img src="{url}" width="{width}">') if as_html else url
-
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
