@@ -1,37 +1,45 @@
-from cloudinary import CloudinaryImage, CloudinaryVideo
-from django.template.loader import get_template
 from django.conf import settings
+from django.template.loader import get_template
 
-def get_cloudinary_image_object(instance, field_name="image", as_html=False, width=500):
+
+def get_cloudinary_image_object(instance,
+                                field_name="image",
+                                as_html=False,
+                                width=1200
+                                ):
     if not hasattr(instance, field_name):
-        return None
+         return ""
+    image_object = getattr(instance, field_name)
+    if not image_object:
+        return ""
+    image_options = {
+        "width": width
+    }
+    if as_html:
+          return image_object.image(**image_options)
+    url = image_object.build_url(**image_options)
+    return url
 
-    image_field = getattr(instance, field_name)
-    if not image_field:
-        return None
+video_html = """
 
-    return CloudinaryImage(str(image_field)).build_url(width=width)
-
+"""
 
 def get_cloudinary_video_object(instance,
                                 field_name="video",
-                                height=None,
                                 as_html=False,
                                 width=None,
-                                sign_url=False,
-                                fetch_format= "auto",
+                                height=None,
+                                sign_url=True, # for private videos
+                                fetch_format = "auto",
                                 quality = "auto",
                                 controls=True,
                                 autoplay=True,
                                 ):
     if not hasattr(instance, field_name):
-        return None
-
-    video_field = getattr(instance, field_name)
-    if not video_field:
-        return None
-
-    # Video options dictionary
+         return ""
+    video_object = getattr(instance, field_name)
+    if not video_object:
+        return ""
     video_options = {
         "sign_url": sign_url,
         "fetch_format": fetch_format,
@@ -40,21 +48,16 @@ def get_cloudinary_video_object(instance,
         "autoplay": autoplay,
     }
     if width is not None:
-        video_options["width"] = width
+        video_options['width'] =width
     if height is not None:
-        video_options["height"] = height
+        video_options['height'] =height
     if height and width:
-        video_options["crop"] = "limit"
-
-
-    video_url = CloudinaryVideo(str(video_field)).build_url(**video_options)
-
+        video_options['crop'] = "limit"
+    url = video_object.build_url(**video_options)
     if as_html:
         template_name = "videos/snippets/embed.html"
         tmpl = get_template(template_name)
         cloud_name = settings.CLOUDINARY_CLOUD_NAME
-        _html = tmpl.render({'video_url': video_url,
-                             'cloud_name': cloud_name})
+        _html = tmpl.render({'video_url': url, 'cloud_name': cloud_name, 'base_color': "#007cae"})
         return _html
-
-    return video_url
+    return url
