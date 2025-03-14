@@ -69,7 +69,7 @@ class Course(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField(blank=True, null=True)
     # uuid = models.UUIDField(default=uuid.uuid1, unique=True)
-    public_id = models.CharField(max_length=130, blank=True, null=True)
+    public_id = models.CharField(max_length=130, blank=True, null=True, db_index=True)
     # image = models.ImageField(upload_to=handle_upload, blank=True, null=True)
     image = CloudinaryField(
         "image",
@@ -137,7 +137,7 @@ class Course(models.Model):
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # course_id
-    public_id = models.CharField(max_length=130, blank=True, null=True)
+    public_id = models.CharField(max_length=130, blank=True, null=True, db_index=True)
     title = models.CharField(max_length=120)
     description = models.TextField(blank=True, null=True)
     thumbnail = CloudinaryField("image",
