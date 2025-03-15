@@ -36,21 +36,30 @@ def generate_public_id(instance, *args, **kwargs):
     return f"{slug}-{unique_id_short}"
 
 
+# def get_public_id_prefix(instance, *args, **kwargs):
+#     if hasattr(instance, 'path'):
+#         path = instance.path
+#         if path.startswith("/"):
+#             path = path[1:]
+#         if path.endswith('/'):
+#             path = path[:-1]
+#         return path
+#     public_id = instance.public_id
+#     model_class = instance.__class__
+#     model_name = model_class.__name__
+#     model_name_slug = slugify(model_name)
+#     if not public_id:
+#         return f"{model_name_slug}"
+#     return f"{model_name_slug}/{public_id}"
 def get_public_id_prefix(instance, *args, **kwargs):
-    if hasattr(instance, 'path'):
-        path = instance.path
-        if path.startswith("/"):
-            path = path[1:]
-        if path.endswith('/'):
-            path = path[:-1]
-        return path
     public_id = instance.public_id
+    if public_id:
+        return public_id  # Just return the public ID if it exists
+
     model_class = instance.__class__
-    model_name = model_class.__name__
-    model_name_slug = slugify(model_name)
-    if not public_id:
-        return f"{model_name_slug}"
-    return f"{model_name_slug}/{public_id}"
+    model_name_slug = slugify(model_class.__name__)  # "course" or "lesson"
+
+    return model_name_slug  # Don't append "/public_id" here
 
 
 def get_display_name(instance, *args, **kwargs):
