@@ -20,7 +20,7 @@ def course_detail_view(request, course_id=None, *args, **kwarg):
     lessons_queryset = course_obj.lesson_set.all()
     context = {
         "object": course_obj,
-        # "lessons_queryset": lessons_queryset,
+        "lessons_queryset": lessons_queryset,
     }
     # return JsonResponse({"data": course_obj.id, 'lesson_ids': [x.path for x in lessons_queryset] })
     return render(request, "courses/detail.html", context)
