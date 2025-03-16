@@ -51,15 +51,20 @@ def generate_public_id(instance, *args, **kwargs):
 #     if not public_id:
 #         return f"{model_name_slug}"
 #     return f"{model_name_slug}/{public_id}"
+
+# def get_public_id_prefix(instance, *args, **kwargs):
+#     public_id = instance.public_id
+#     if public_id:
+#         return public_id  # Just return the public ID if it exists
+#
+#     model_class = instance.__class__
+#     model_name_slug = slugify(model_class.__name__)  # "course" or "lesson"
+#
+#     return model_name_slug  # Don't append "/public_id" here
 def get_public_id_prefix(instance, *args, **kwargs):
-    public_id = instance.public_id
-    if public_id:
-        return public_id  # Just return the public ID if it exists
-
     model_class = instance.__class__
-    model_name_slug = slugify(model_class.__name__)  # "course" or "lesson"
-
-    return model_name_slug  # Don't append "/public_id" here
+    model_name_slug = slugify(model_class.__name__)  # Will be 'lesson' or 'course'
+    return model_name_slug
 
 
 def get_display_name(instance, *args, **kwargs):
@@ -182,6 +187,10 @@ class Lesson(models.Model):
             self.public_id = generate_public_id(self)
         super().save(*args, **kwargs)
 
+
+    def get_absolute_url(self):
+        return self.path
+
     @property
     def path(self):
         course_path = self.course.path
@@ -191,3 +200,7 @@ class Lesson(models.Model):
 
     def get_display_name(self):
         return f"{self.title} - {self.course.get_display_name()}"
+
+    @property
+    def is_coming_soon(self):
+        return self.status == PublishStatus.COMING_SOON
