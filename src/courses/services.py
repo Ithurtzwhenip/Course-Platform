@@ -1,10 +1,9 @@
-from .models import Course, Lesson, PublishStatus
 from django.db.models import Q
+from .models import Course, Lesson, PublishStatus
 
 
 def get_publish_courses():
     return Course.objects.filter(status=PublishStatus.PUBLISHED)
-
 
 def get_course_detail(course_id=None):
     if course_id is None:
@@ -19,7 +18,6 @@ def get_course_detail(course_id=None):
         pass
     return obj
 
-
 def get_course_lessons(course_obj=None):
     lessons = Lesson.objects.none()
     if not isinstance(course_obj, Course):
@@ -27,7 +25,6 @@ def get_course_lessons(course_obj=None):
     lessons = course_obj.lesson_set.filter(
         course__status=PublishStatus.PUBLISHED,
         status__in=[PublishStatus.PUBLISHED, PublishStatus.COMING_SOON]
-
     )
     return lessons
 

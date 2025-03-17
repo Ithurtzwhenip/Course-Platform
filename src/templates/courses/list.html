@@ -3,8 +3,9 @@
 
 {% block content %}
 
+
 <h1>Courses</h1>
 
+{% include 'courses/snippets/list-display.html' with queryset=object_list %}
 
-{% include 'courses/snippets/list-display.html' with queryset=object_list%}
 {% endblock content %}

@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
+
 {% block content %}
 
-<p>{{ object.title }}</p>
+
+<h1>{{ object.title }}</h1>
 
 
-<ul>
-{% for lesson in lessons_queryset %}
-  <li>
-    <a href="{{ lesson.path }}">{{ lesson.title }}</a>
-  </li>
-{% endfor %}
-</ul>
+{% include 'courses/snippets/list-display.html' with queryset=lessons_queryset %}
+
 {% endblock content %}
