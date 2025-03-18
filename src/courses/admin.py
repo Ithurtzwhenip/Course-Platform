@@ -57,4 +57,3 @@ class CourseAdmin(admin.ModelAdmin):
     display_image.short_description = "Current Image"
 
 
-# admin.site.register(Course, CourseAdmin)

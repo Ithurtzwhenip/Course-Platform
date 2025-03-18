@@ -2,7 +2,6 @@ from django.shortcuts import render
 from emails.forms import EmailForm
 from django.conf import settings
 
-from src.courseplatform.settings import EMAIL_ADDRESS
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 
@@ -15,7 +14,10 @@ def home_view(request, *args, **kwargs):
         "message": ""
     }
     if form.is_valid():
-        form.save()
+        obj=form.save()
+        print(obj)
         context['form'] = EmailForm()
         context["message"] = f"Success! Check your email for verification from {EMAIL_ADDRESS}"
+    else:
+        print("Form errors:", form.errors)
     return render(request, template_name, context)
