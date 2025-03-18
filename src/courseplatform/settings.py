@@ -34,7 +34,6 @@ if all([ADMIN_USER_NAME, ADMIN_USER_EMAIL]):
     ]
     MANAGERS=ADMINS
 
-print("ADMINS =", ADMINS)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,6 +62,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "courses",
+    "emails",
 ]
 
 MIDDLEWARE = [
