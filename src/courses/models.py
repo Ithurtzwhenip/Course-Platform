@@ -187,7 +187,6 @@ class Lesson(models.Model):
             self.public_id = generate_public_id(self)
         super().save(*args, **kwargs)
 
-
     def get_absolute_url(self):
         return self.path
 
@@ -197,6 +196,10 @@ class Lesson(models.Model):
         if course_path.endswith("/"):
             course_path = course_path[:-1]
         return f"{course_path}/lessons/{self.public_id}"
+
+    @property
+    def requires_email(self):
+        return self.course.access == AccessRequirement.EMAIL_REQUIRED
 
     def get_display_name(self):
         return f"{self.title} - {self.course.get_display_name()}"
