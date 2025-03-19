@@ -4,16 +4,19 @@ from .models import Email, EmailVerificationEvent
 
 EMAIL_HOST_USER = settings.EMAIL_HOST_USER
 
+
 def verify_email(email):
     qs = Email.objects.filter(email=email, active=False)
     return qs.exists()
 
+
 def get_verification_email_msg(verification_instance, as_html=False):
     if not isinstance(verification_instance, EmailVerificationEvent):
         return None
+    verify_link = verification_instance.get_link()
     if as_html:
-        return f"<h1>{verification_instance.id}</h1>"
-    return f"{verification_instance.id}"
+        return (f"<h1>Verify your email with the following</h1><p><a href ='{verify_link}'>{verify_link}</a></p>")
+    return f"Verify your email with the following: \n{verify_link}"
 
 
 def start_verification_event(email):
@@ -25,8 +28,9 @@ def start_verification_event(email):
     sent = send_verification_email(obj.id)
     return obj, sent
 
+
 # celery task -> background task
-def send_verification_email(verify_obj_id,):
+def send_verification_email(verify_obj_id, ):
     verify_obj = EmailVerificationEvent.objects.get(id=verify_obj_id)
     email = verify_obj.email
     subject = "Verify your email"

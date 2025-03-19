@@ -14,27 +14,26 @@ from pathlib import Path
 
 from decouple import config
 
-
+BASE_URL = config('BASE_URL', default='http://127.0.0.1:8000')
 # default backend
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
-EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') # Recommended
+EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587')  # Recommended
 EMAIL_ADDRESS = "sahilsinhahasmail@gmail.com"
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)  # Use EMAIL_PORT 587 for TLS
 
-ADMIN_USER_NAME=config("ADMIN_USER_NAME", default="Sahil")
-ADMIN_USER_EMAIL=config("ADMIN_USER_EMAIL", default=None)
+ADMIN_USER_NAME = config("ADMIN_USER_NAME", default="Sahil")
+ADMIN_USER_EMAIL = config("ADMIN_USER_EMAIL", default=None)
 
-MANAGERS=[]
-ADMINS=[]
+MANAGERS = []
+ADMINS = []
 if all([ADMIN_USER_NAME, ADMIN_USER_EMAIL]):
-    ADMINS +=[
+    ADMINS += [
         (f'{ADMIN_USER_NAME}', f'{ADMIN_USER_EMAIL}')
     ]
-    MANAGERS=ADMINS
-
+    MANAGERS = ADMINS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,7 +50,6 @@ SECRET_KEY = "django-insecure-)m9pn5k+cz^l1pos#-_dr@nqcmqtynn1xo9f$b=6uney85a+cl
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -98,7 +96,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "courseplatform.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -108,7 +105,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -128,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -139,7 +134,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -156,8 +150,7 @@ MEDIA_ROOT = LOCAL_CDN / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 # cloudinary video config
 CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME", default="")
 CLOUDINARY_PUBLIC_API_KEY = config("CLOUDINARY_PUBLIC_API_KEY", default="")
-CLOUDINARY_SECRET_API_KEY= config("CLOUDINARY_SECRET_API_KEY")
+CLOUDINARY_SECRET_API_KEY = config("CLOUDINARY_SECRET_API_KEY")
