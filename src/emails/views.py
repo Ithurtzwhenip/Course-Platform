@@ -1,8 +1,33 @@
+from unittest import loader
+
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+from django.conf import settings
 from . import services
+
+from .forms import EmailForm
+
+EMAIL_ADDRESS = settings.EMAIL_ADDRESS
+
+
+def email_token_login_view(request):
+    if not request.htmx:
+        return redirect('/')
+    template_name = "emails/hx/email_form.html"
+    form = EmailForm(request.POST or None)
+    context = {
+        "form": form,
+        "message": ""
+    }
+    if form.is_valid():
+        email_val = form.cleaned_data.get('email')
+        obj = services.start_verification_event(email_val)
+        context['form'] = EmailForm()
+        context["message"] = f"Success! Check your email for verification from {EMAIL_ADDRESS}"
+    else:
+        print("Form errors:", form.errors)
+    return render(request, template_name, context)
 
 
 # Create your views here.

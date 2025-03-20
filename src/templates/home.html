@@ -4,13 +4,8 @@
 {%block content%}
 <h1>Welcome</h1>
 
-<div>
-    <form method="POST" action=".">
-        {%csrf_token%}
-        {{form}}
+<div hx-get="/hx/login/" hx-trigger="load">
 
-        <button type="submit">Login</button>
-    </form>
 </div>
 
 {%endblock content%}
