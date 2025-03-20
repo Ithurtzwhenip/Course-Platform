@@ -1,11 +1,15 @@
+{% load static tailwind_tags %}
+
 <!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% tailwind_css %}
     {% include 'base/js.html'%}
     <title>{%block head_title%}Hello from Course Platform{%endblock head_title%}</title>
+
 </head>
 <body hx-headers='{"X-CSRFToken": "{{csrf_token}}"}'>
 <div hx-get="/hx/login/" hx-trigger="load">

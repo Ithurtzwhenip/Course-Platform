@@ -61,10 +61,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_htmx",
+    "theme",
     "courses",
     "emails",
+    'tailwind',
 ]
 
+TAILWIND_APP_NAME = "theme"
+INTERNAL_IPS = [
+    "0.0.0.0",
+    "127.0.0.1",
+]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -75,6 +82,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append('django_browser_reload')
+    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
 
 ROOT_URLCONF = "courseplatform.urls"
 
