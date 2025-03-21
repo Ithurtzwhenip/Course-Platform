@@ -10,9 +10,8 @@ module.exports = {
         '../../**/*.js',
         // Include Python files that might contain Tailwind CSS classes
         '../../**/*.py',
-        //Include flowbite files
-        './node_modules/flowbite/**/*.js',
-        './static_src/node_modules/flowbite/**/*.js',
+        // Include flowbite files
+        "./node_modules/flowbite/**/*.js"
     ],
     theme: {
         extend: {},

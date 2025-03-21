@@ -1,26 +1,24 @@
 {% load static tailwind_tags %}
-
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% tailwind_css %}
-    {% include 'base/js.html'%}
-    <title>{%block head_title%}Hello from Course Platform{%endblock head_title%}</title>
+  <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {% tailwind_css %}
 
+  <title>{% block head_title %}Hello World from Course Platform
+  {% endblock head_title %}</title>
 </head>
-<body hx-headers='{"X-CSRFToken": "{{csrf_token}}"}'>
-{%include 'base/navbar.html' %}
-<div hx-get="/hx/login/" hx-trigger="load">
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  {% include 'base/navbar.html' %}
 
-</div>
-{%block content%}
-<h1 class="text-3xl font-bold underline">
-    Hello world from base
-</h1>
-{%endblock content%}
 
+    {% block content %}
+    <h1 class="text-3xl font-bold underline">
+        Hello world from base!
+      </h1>
+    {% endblock content %}
+    {% include 'base/js.html' %}
 </body>
 </html>
