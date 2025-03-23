@@ -22,10 +22,6 @@ def handle_upload(instance, filename):
     return f"{filename}"
 
 
-# from courses.models import Course
-# Course.objects.all() -> list out all courses
-# Course.objects.first() -> first row of all courses
-
 def generate_public_id(instance, *args, **kwargs):
     title = instance.title
     unique_id = str(uuid.uuid4()).replace("-", "")
@@ -36,31 +32,6 @@ def generate_public_id(instance, *args, **kwargs):
     return f"{slug}-{unique_id_short}"
 
 
-# def get_public_id_prefix(instance, *args, **kwargs):
-#     if hasattr(instance, 'path'):
-#         path = instance.path
-#         if path.startswith("/"):
-#             path = path[1:]
-#         if path.endswith('/'):
-#             path = path[:-1]
-#         return path
-#     public_id = instance.public_id
-#     model_class = instance.__class__
-#     model_name = model_class.__name__
-#     model_name_slug = slugify(model_name)
-#     if not public_id:
-#         return f"{model_name_slug}"
-#     return f"{model_name_slug}/{public_id}"
-
-# def get_public_id_prefix(instance, *args, **kwargs):
-#     public_id = instance.public_id
-#     if public_id:
-#         return public_id  # Just return the public ID if it exists
-#
-#     model_class = instance.__class__
-#     model_name_slug = slugify(model_class.__name__)  # "course" or "lesson"
-#
-#     return model_name_slug  # Don't append "/public_id" here
 def get_public_id_prefix(instance, *args, **kwargs):
     model_class = instance.__class__
     model_name_slug = slugify(model_class.__name__)  # Will be 'lesson' or 'course'
@@ -154,19 +125,6 @@ class Course(models.Model):
     - Video
     - Status: Published, Coming Soon, Draft
 """
-
-
-# Lesson.objects.all() # lesson queryset -> all rows
-# Lesson.objects.first()
-# course_obj = Course.objects.first()
-# course_qs = Course.objects.filter(id=course_obj.id)
-# Lesson.objects.filter(course__id=course_obj.id)
-# course_obj.lesson_set.all()
-# lesson_obj = Lesson.objects.first()
-# ne_course_obj = lesson_obj.course
-# ne_course_lessons = ne_course_obj.lesson_set.all()
-# lesson_obj.course_id
-# course_obj.lesson_set.all().order_by("-title")
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
