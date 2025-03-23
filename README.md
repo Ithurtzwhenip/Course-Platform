@@ -14,7 +14,7 @@ Tech Stack:
 - [Cloudinary](https://cld.media/cfe)
 
 ## Overview
-What we are building
+
 
 - Courses:
 	- Title
