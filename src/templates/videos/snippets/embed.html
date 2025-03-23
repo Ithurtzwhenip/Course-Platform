@@ -3,9 +3,8 @@
        class="course-video"
        controls
        autoplay
-       data-video-url="{{ video_url }}"
-       data-cloud-name="{{ cloud_name }}"
-       data-cld-colors='{ "base": "{% if base_color %}{{ base_color }}{% else %}#000000{% endif %}", "accent": "#db8226", "text": "#fff" }'
-       class="cld-video-player cld-video-player-skin-light"
->
+       style="width: 50%; max-width: 600px; height: auto; border-radius: 8px;">
+    <source src="{{ video_url }}" type="video/mp4">
+    Your browser does not support the video tag.
 </video>
+

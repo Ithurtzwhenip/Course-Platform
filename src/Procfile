@@ -1,0 +1,1 @@
+web: gunicorn courseplatform.wsgi:application --chdir src

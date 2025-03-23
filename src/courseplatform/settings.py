@@ -74,6 +74,7 @@ INTERNAL_IPS = [
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -83,6 +84,7 @@ MIDDLEWARE = [
     "django_htmx.middleware.HtmxMiddleware",
 ]
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 if DEBUG:
     INSTALLED_APPS.append('django_browser_reload')
     MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
@@ -167,3 +169,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME", default="")
 CLOUDINARY_PUBLIC_API_KEY = config("CLOUDINARY_PUBLIC_API_KEY", default="")
 CLOUDINARY_SECRET_API_KEY = config("CLOUDINARY_SECRET_API_KEY")
+
+import os
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Your Tailwind output directory
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'theme', 'static'),  # compiled CSS/JS from Tailwind
+]
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # where collectstatic will collect to

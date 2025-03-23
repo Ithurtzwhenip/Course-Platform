@@ -4,13 +4,16 @@ from django.shortcuts import render, redirect
 
 from . import services
 
+
 def course_list_view(request):
     queryset = services.get_publish_courses()
-    print(queryset)
-    # return JsonResponse({"data": [x.path for x in queryset]})
     context = {
         "object_list": queryset
     }
+    template_name = "courses/list.html"
+    if request.htmx:
+        template_name = "courses/snippets/list-display.html"
+        context['queryset'] = queryset[:3]
     return render(request, "courses/list.html", context)
 
 
@@ -34,7 +37,9 @@ def lesson_detail_view(request, course_id=None, lesson_id=None, *args, **kwargs)
         lesson_id=lesson_id
     )
     if lesson_obj is None:
-        raise Http404
+        return redirect('/')
+        # Or redirect('home') if you have a named URL for the home page
+
     email_id_exists = request.session.get('email_id')
     if lesson_obj.requires_email and not email_id_exists:
         print(request.path)
